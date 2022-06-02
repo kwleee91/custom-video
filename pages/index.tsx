@@ -1,15 +1,8 @@
 import React, { useEffect, useRef, useState, KeyboardEvent } from "react";
 import styled from "styled-components";
-import Header from "../components/Header";
 import Image from "next/image";
-// "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-const srcVideo =
-  "https://ak.picdn.net/shutterstock/videos/1058114491/preview/stock-footage-close-up-of-an-young-active-sporty-athlete-smiling-woman-is-taking-a-break-after-making-running-and.webm";
-const srcVideo2 =
-  "https://ak.picdn.net/shutterstock/videos/1058114491/preview/stock-footage-close-up-of-an-young-active-sporty-athlete-smiling-woman-is-taking-a-break-after-making-running-and.webm";
 
 const Video = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -164,11 +157,6 @@ const Video = () => {
     }
   };
 
-  const [time, setTime] = useState(0);
-  const toGO = () => {
-    setTime((videoRef.current?.currentTime * 100) / videoRef.current?.duration);
-    console.log(time);
-  };
   return (
     <Container>
       <VideoWrapper //
