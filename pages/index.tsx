@@ -12,11 +12,11 @@ const Video = () => {
   const [isAds, setIsAds] = useState(false);
 
   const [volume, setVolume] = useState<string | number>(1);
-  const [seekValue, setSeekValue] = useState<string | number>(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [pausedTime, setPausedTime] = useState(0);
 
   const [srcVideo, setSrcVideo] = useState(
-    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4#"
   );
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -29,23 +29,21 @@ const Video = () => {
   const totalTime =
     (videoRef && videoRef.current && videoRef.current.duration) || 0;
 
-  const onClick = () => {
-    progressRef.current?.focus();
-  };
-
-  const addTimeUpdate = () => {
-    setCurrentTime(videoRef.current.currentTime);
+  const timeUpdate = () => {
     if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
       progressRef.current?.focus();
     }
-
     playingAds();
   };
 
   const playingAds = () => {
-    if (Math.floor(videoRef.current?.currentTime) === 3 && !isAds) {
-      setIsAds(!isAds);
-      videoRef.current?.pause();
+    if (videoRef.current) {
+      if (Math.floor(videoRef.current.currentTime) === 5 && !isAds) {
+        setIsAds(!isAds);
+        setPausedTime(videoRef.current.currentTime);
+        videoRef.current?.pause();
+      }
     }
   };
 
@@ -58,20 +56,18 @@ const Video = () => {
       videoRef.current?.play();
       videoRef.current.onended = () => {
         setSrcVideo(
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          `http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4#t=${pausedTime}`
         );
         videoRef.current?.load();
         videoRef.current?.play();
-        setSeekValue(0);
-        videoRef.current.onended = null;
+        videoRef.current!.onended = null;
       };
     }
   }, [isAds, videoRef]);
 
   const playingTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const seek = videoRef.current?.duration * (+e.target.value / 100);
+    const seek = e.target.value;
     videoRef.current.currentTime = seek;
-    setSeekValue(e.target.value);
   };
 
   const togglePlay = () => {
@@ -146,13 +142,19 @@ const Video = () => {
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLImageElement>) => {
-    switch (e.keyCode) {
-      case 32:
+    switch (e.code) {
+      case "Space":
         togglePlay();
         break;
-      case 37:
+      case "ArrowLeft":
+        setCurrentTime((prev) => {
+          return prev - 5;
+        });
         break;
-      case 39:
+      case "ArrowRight":
+        setCurrentTime((prev) => {
+          return prev + 5;
+        });
         break;
     }
   };
@@ -160,7 +162,6 @@ const Video = () => {
   return (
     <Container>
       <VideoWrapper //
-        onClick={onClick}
         onKeyDown={onKeyDown}
         onMouseEnter={showProgressControl}
         onMouseLeave={showProgressControl}
@@ -177,7 +178,7 @@ const Video = () => {
         ) : null}
         <video //
           ref={videoRef}
-          onTimeUpdate={addTimeUpdate}
+          onTimeUpdate={timeUpdate}
         >
           <source src={srcVideo} ref={sourceRef} type="video/mp4" />
         </video>
@@ -187,9 +188,10 @@ const Video = () => {
               id="progress-bar"
               ref={progressRef}
               onChange={playingTime}
-              value={seekValue}
+              value={currentTime}
               type="range"
               min="0"
+              max={totalTime}
               step="1"
             />
           </ProgressBar>
