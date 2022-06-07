@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Cutom Video
 
-## Getting Started
+### 프로젝트 회고
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## 데모영상
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br />
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<div align="center">
+  <img src="./public/custom-video.gif" width="500" height="400" />
+</div>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<br />
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
+## Introduction
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 동영상 플레이어의 다양한 기능을 순수 React 로 Custom Video 제작
+- 진행 기간 : 2022.05.23 ~ 2022.06.02 (10일)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<br/>
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 기능 상세
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 재생/정지<br/> 
+- 전체화면/축소<br/>
+- 컨트롤바 보이기/숨기기<br/>
+- 영상 현재 및 전체시간 표시<br/>
+- 볼륨 음소거 on/off, 볼륨 조절 기능<br/>
+- 영상 progress bar 클릭할 때 해당 시간으로 영상 이동<br/>
+- 로딩 중이면 로딩UI 표시하도록 구현<br/>
+- 광고 삽입(특정 시간 경과 후 광고 실행, 광고 종료 후 원래 영상으로 복귀)<br/>
+- keyboardevent 이용하여 다음과 같이 구현 (space : 재생/정지, left-button : 영상 5초 뒤로가기 right-button : 영상 5초 앞으로 가기)
